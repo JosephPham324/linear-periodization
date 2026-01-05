@@ -1,1 +1,25 @@
-/.vscode
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Tailwind build output
+/public/css/app.css
+/public/css/*.map
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Env
+.env
+.env.*
+
+# Cache
+.cache/
+.tmp/
