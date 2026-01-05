@@ -5,7 +5,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Tailwind build output
-/public/css/app.css
 /public/css/*.map
 
 # OS junk
