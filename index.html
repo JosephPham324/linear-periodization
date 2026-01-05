@@ -6,88 +6,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bald Omni-Man's Linear Periodization Calc</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            letter-spacing: -0.01em;
         }
 
         .glass-card {
-            @apply bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden;
+            @apply bg-white rounded-3xl shadow-[0_8px_30px_rgb(0, 0, 0, 0.04)] border border-slate-200 overflow-hidden;
         }
 
         .input-field {
-            @apply block w-full px-4 py-3 rounded-xl border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all border;
+            @apply block w-full px-4 py-4 rounded-2xl border-slate-200 bg-slate-50 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all border font-bold text-xl;
         }
 
         .tab-active {
-            @apply bg-indigo-600 text-white shadow-lg shadow-indigo-200;
+            @apply bg-indigo-600 text-white shadow-xl shadow-indigo-200 scale-105;
         }
 
         .tab-inactive {
-            @apply bg-slate-100 text-slate-500 hover:bg-slate-200;
+            @apply bg-white text-slate-500 hover:bg-slate-50 border border-slate-200;
         }
 
         .weight-badge-top {
-            @apply inline-flex items-center px-3 py-1 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-lg border border-indigo-200;
+            @apply inline-flex flex-col items-center justify-center min-w-[80px] p-2 rounded-xl bg-gradient-to-br from-indigo-500 to-indigo-700 text-white font-bold text-xl shadow-md shadow-indigo-100;
         }
 
         .weight-badge-back {
-            @apply inline-flex items-center px-3 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold text-base border border-slate-200;
+            @apply inline-flex flex-col items-center justify-center min-w-[70px] p-2 rounded-xl bg-slate-100 text-slate-700 font-bold text-base border border-slate-200;
+        }
+
+        .phase-divider {
+            @apply bg-slate-50 text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 py-2 px-6 border-y border-slate-100;
         }
     </style>
 </head>
 
-<body class="bg-slate-50 text-slate-900 min-h-screen pb-20">
+<body class="bg-[#F8FAFC] text-slate-900 min-h-screen pb-20">
 
     <div class="max-w-5xl mx-auto px-4 py-12">
         <header class="mb-12 text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Bald Omni-Man's </h1>
-            <p class="text-slate-500 text-lg">Linear Periodization & Peaking Calculator</p>
+            <div
+                class="inline-block px-4 py-1.5 mb-4 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-widest">
+                Training System</div>
+            <h1 class="text-5xl font-black tracking-tighter text-slate-900 mb-2 italic">BALD <span
+                    class="text-indigo-600">OMNI-MAN</span></h1>
+            <p class="text-slate-500 text-lg font-medium">Linear Periodization & Peaking Calculator</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-            <div class="glass-card p-6">
-                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Current 1-Rep
-                    Max</label>
-                <div class="relative">
-                    <input type="number" id="oneRM" value="100" step="2.5" class="input-field text-2xl font-bold">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="glass-card p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <label class="text-sm font-bold text-slate-500 uppercase tracking-widest">Current 1-Rep Max</label>
                     <span
-                        class="absolute right-4 top-3.5 text-slate-400 font-medium tracking-widest text-xs">KG/LB</span>
+                        class="px-2 py-1 rounded bg-slate-100 text-slate-400 text-[10px] font-bold uppercase">Target</span>
+                </div>
+                <div class="relative">
+                    <input type="number" id="oneRM" value="100" step="2.5" class="input-field">
+                    <span
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 font-black tracking-tighter">KG/LB</span>
                 </div>
             </div>
-            <div class="glass-card p-6">
-                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Smallest Plate
-                    Increment</label>
-                <input type="number" id="increment" value="2.5" step="0.5" class="input-field text-2xl font-bold">
+            <div class="glass-card p-8">
+                <div class="flex items-center justify-between mb-4">
+                    <label class="text-sm font-bold text-slate-500 uppercase tracking-widest">Plate Increment</label>
+                    <span
+                        class="px-2 py-1 rounded bg-slate-100 text-slate-400 text-[10px] font-bold uppercase">Precision</span>
+                </div>
+                <input type="number" id="increment" value="2.5" step="0.5" class="input-field">
             </div>
         </div>
 
-        <div class="flex p-1.5 bg-slate-200/50 rounded-2xl mb-8 w-fit mx-auto md:mx-0">
+        <div
+            class="flex p-2 bg-slate-200/50 rounded-[2rem] mb-8 w-fit mx-auto md:mx-0 backdrop-blur-sm border border-white/50">
             <button onclick="switchTab('5rm')" id="tab-5rm"
-                class="px-8 py-2.5 rounded-xl font-bold transition-all tab-active">5RM Version</button>
+                class="px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 tab-active">5RM Block</button>
             <button onclick="switchTab('1rm')" id="tab-1rm"
-                class="px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive">1RM Version</button>
+                class="px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive">1RM
+                Block</button>
         </div>
 
-        <div class="glass-card">
+        <div class="glass-card shadow-2xl">
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-slate-50">
-                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Week</th>
+                        <tr class="bg-white sticky top-0 z-10">
+                            <th class="px-6 py-5 text-xs font-black text-slate-400 uppercase tracking-[0.15em]">Week
+                            </th>
                             <th
-                                class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
-                                Top Set</th>
+                                class="px-6 py-5 text-xs font-black text-slate-400 uppercase tracking-[0.15em] text-center">
+                                Load (Top)</th>
                             <th
-                                class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
-                                Back-down</th>
-                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
-                                Prescription</th>
+                                class="px-6 py-5 text-xs font-black text-slate-400 uppercase tracking-[0.15em] text-center">
+                                Load (Back)</th>
+                            <th class="px-6 py-5 text-xs font-black text-slate-400 uppercase tracking-[0.15em]">
+                                Instructions</th>
                         </tr>
                     </thead>
-                    <tbody id="program-body" class="divide-y divide-slate-100">
-                    </tbody>
+                    <tbody id="program-body" class="divide-y divide-slate-100"></tbody>
                 </table>
             </div>
         </div>
@@ -107,11 +124,11 @@
                 "1 set repped to 1 Rep In Reserve",
                 "2 sets rep to 2 RIR",
                 "2 sets rep to 1 RIR",
-                "Perform 2 sets while trying to keep 2-3 reps in the tank per set. Perform an additional set after those taken to muscular failure after these in order to drive a bit of intensity and audit your performance."
+                "Perform 2 sets while trying to keep 2-3 reps in the tank per set. Perform an additional set taken to muscular failure."
             ],
             '5RM': [
-                "Perform 2 sets while trying to keep 2-3 reps in the tank per set. Perform an additional set after those taken to muscular failure after these in order to drive a bit of intensity and audit your performance.",
-                "3 sets to around 1-2 reps in reserve (no failure sets). Drop accessory volume if fatigued.",
+                "2 sets (2-3 RIR) + 1 set to muscular failure to drive intensity/audit performance.",
+                "3 sets (1-2 RIR). Higher intensity - drop accessory volume if fatigued.",
                 "Perform a 5+ Rep max. If >10 reps, rest 3-4 mins and add 2.5-5 per extra rep."
             ]
         };
@@ -137,16 +154,22 @@
                 { wk: 5, top: 0.83, back: 0.73, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
                 { wk: 6, top: 0.86, back: 0.76, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
                 { wk: 7, top: 0.89, back: 0.79, note: commonPres['1RM'][1], backNote: commonPres['1RM'][3] },
-                { wk: 8, top: 0.93, back: 0.82, note: 'Single', backNote: commonPres['1RM'][3] },
-                { wk: 9, top: 0.95, back: 0.85, note: 'Single', backNote: commonPres['1RM'][3] },
-                { wk: 10, top: 1.00, back: 0.85, note: 'Single', backNote: "2 sets rep to 0 RIR" }
+                { wk: 8, top: 0.93, back: 0.82, note: 'Heavy Single', backNote: commonPres['1RM'][3] },
+                { wk: 9, top: 0.95, back: 0.85, note: 'Heavy Single', backNote: commonPres['1RM'][3] },
+                { wk: 10, top: 1.00, back: 0.85, note: 'Max Effort Single', backNote: "2 sets rep to 0 RIR" }
             ]
         };
 
+        function getIntensityColor(pct) {
+            if (pct < 0.70) return 'bg-emerald-100 text-emerald-700';
+            if (pct < 0.85) return 'bg-amber-100 text-amber-700';
+            return 'bg-rose-100 text-rose-700';
+        }
+
         function switchTab(mode) {
             currentMode = mode;
-            document.getElementById('tab-5rm').className = mode === '5rm' ? "px-8 py-2.5 rounded-xl font-bold transition-all tab-active" : "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive";
-            document.getElementById('tab-1rm').className = mode === '1rm' ? "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-active" : "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive";
+            document.getElementById('tab-5rm').className = mode === '5rm' ? "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 tab-active" : "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive";
+            document.getElementById('tab-1rm').className = mode === '1rm' ? "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-active" : "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive";
             render();
         }
 
@@ -154,34 +177,59 @@
             const rm = parseFloat(oneRMInput.value) || 0;
             const inc = parseFloat(incrementInput.value) || 0.5;
             const data = programs[currentMode];
+            let html = '';
 
-            programBody.innerHTML = data.map(row => {
+            data.forEach((row, index) => {
+                // Phase Dividers
+                if (index === 0) html += `<tr><td colspan="4" class="phase-divider">Phase I: Volumetric Base</td></tr>`;
+                if (index === 4) html += `<tr><td colspan="4" class="phase-divider">Phase II: Intensification & Peaking</td></tr>`;
+
                 const mainWeight = mround(rm * row.top, inc);
                 const backWeight = row.back ? mround(rm * row.back, inc) : null;
                 const isMaxWeek = row.wk === 10;
+                const intensityColor = getIntensityColor(row.top);
 
-                return `
-                <tr class="${isMaxWeek ? 'bg-indigo-50/50' : 'hover:bg-slate-50 transition-colors'}">
-                    <td class="px-6 py-6 font-bold text-slate-400">W${row.wk}</td>
-                    <td class="px-6 py-6 text-center">
-                        <div class="weight-badge-top">${mainWeight}</div>
+                html += `
+                <tr class="${isMaxWeek ? 'bg-indigo-50/30' : 'hover:bg-slate-50/80 transition-all'}">
+                    <td class="px-6 py-6 whitespace-nowrap">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-black text-slate-300 uppercase leading-none mb-1">Week</span>
+                            <span class="text-2xl font-black text-slate-800 tracking-tighter">${row.wk}</span>
+                        </div>
                     </td>
                     <td class="px-6 py-6 text-center">
-                        ${backWeight ? `<div class="weight-badge-back">${backWeight}</div>` : '<span class="text-slate-300">—</span>'}
+                        <div class="inline-block text-center">
+                            <div class="weight-badge-top">${mainWeight}</div>
+                            <div class="mt-2 px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest ${intensityColor}">
+                                ${Math.round(row.top * 100)}%
+                            </div>
+                        </div>
                     </td>
-                    <td class="px-6 py-6 text-sm">
-                        <div class="max-w-md">
-                            <div class="font-semibold text-slate-800">${row.note}</div>
+                    <td class="px-6 py-6 text-center">
+                        ${backWeight ? `
+                            <div class="inline-block text-center">
+                                <div class="weight-badge-back">${backWeight}</div>
+                                <div class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">${Math.round(row.back * 100)}%</div>
+                            </div>
+                        ` : '<div class="w-10 h-1 bg-slate-100 mx-auto rounded-full"></div>'}
+                    </td>
+                    <td class="px-6 py-6">
+                        <div class="max-w-xs md:max-w-md">
+                            <p class="text-slate-700 font-semibold leading-relaxed mb-2">${row.note}</p>
                             ${row.backNote ? `
-                                <div class="mt-2 flex items-start gap-2 bg-white/50 border border-slate-100 p-2 rounded-lg">
-                                    <span class="text-[10px] font-black text-indigo-500 uppercase mt-0.5 tracking-tighter">Backdown</span>
-                                    <span class="text-slate-600 text-xs">${row.backNote}</span>
+                                <div class="flex items-start gap-3 bg-white border border-slate-200 p-3 rounded-xl shadow-sm">
+                                    <div class="mt-1 p-1 bg-indigo-50 rounded">
+                                        <svg class="w-3 h-3 text-indigo-500" fill="currentColor" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+                                    </div>
+                                    <p class="text-slate-500 text-xs font-medium italic leading-snug">Back-down: ${row.backNote}</p>
                                 </div>
                             ` : ''}
                         </div>
                     </td>
                 </tr>`;
-            }).join('');
+            });
+
+            programBody.innerHTML = html;
         }
 
         [oneRMInput, incrementInput].forEach(el => el.addEventListener('input', render));
