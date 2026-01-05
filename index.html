@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bald Omni-Man's Linear Periodization Calc</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            @apply bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden;
+        }
+
+        .input-field {
+            @apply block w-full px-4 py-3 rounded-xl border-slate-200 bg-slate-50 focus:ring-2 focus:ring-indigo-500 focus:bg-white outline-none transition-all border;
+        }
+
+        .tab-active {
+            @apply bg-indigo-600 text-white shadow-lg shadow-indigo-200;
+        }
+
+        .tab-inactive {
+            @apply bg-slate-100 text-slate-500 hover:bg-slate-200;
+        }
+
+        .weight-badge-top {
+            @apply inline-flex items-center px-3 py-1 rounded-lg bg-indigo-100 text-indigo-700 font-bold text-lg border border-indigo-200;
+        }
+
+        .weight-badge-back {
+            @apply inline-flex items-center px-3 py-1 rounded-lg bg-slate-100 text-slate-600 font-semibold text-base border border-slate-200;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-50 text-slate-900 min-h-screen pb-20">
+
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        <header class="mb-12 text-center">
+            <h1 class="text-4xl font-extrabold tracking-tight text-slate-900 mb-2">Bald Omni-Man's </h1>
+            <p class="text-slate-500 text-lg">Linear Periodization & Peaking Calculator</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div class="glass-card p-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Current 1-Rep
+                    Max</label>
+                <div class="relative">
+                    <input type="number" id="oneRM" value="100" step="2.5" class="input-field text-2xl font-bold">
+                    <span
+                        class="absolute right-4 top-3.5 text-slate-400 font-medium tracking-widest text-xs">KG/LB</span>
+                </div>
+            </div>
+            <div class="glass-card p-6">
+                <label class="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wider">Smallest Plate
+                    Increment</label>
+                <input type="number" id="increment" value="2.5" step="0.5" class="input-field text-2xl font-bold">
+            </div>
+        </div>
+
+        <div class="flex p-1.5 bg-slate-200/50 rounded-2xl mb-8 w-fit mx-auto md:mx-0">
+            <button onclick="switchTab('5rm')" id="tab-5rm"
+                class="px-8 py-2.5 rounded-xl font-bold transition-all tab-active">5RM Version</button>
+            <button onclick="switchTab('1rm')" id="tab-1rm"
+                class="px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive">1RM Version</button>
+        </div>
+
+        <div class="glass-card">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50">
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">Week</th>
+                            <th
+                                class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
+                                Top Set</th>
+                            <th
+                                class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest text-center">
+                                Back-down</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                                Prescription</th>
+                        </tr>
+                    </thead>
+                    <tbody id="program-body" class="divide-y divide-slate-100">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const oneRMInput = document.getElementById('oneRM');
+        const incrementInput = document.getElementById('increment');
+        const programBody = document.getElementById('program-body');
+
+        let currentMode = '5rm';
+        const mround = (value, factor) => Math.round(value / factor) * factor;
+
+        let commonPres = {
+            '1RM': [
+                "3 sets repped to 3 Reps In Reserve",
+                "1 set repped to 1 Rep In Reserve",
+                "2 sets rep to 2 RIR",
+                "2 sets rep to 1 RIR",
+                "Perform 2 sets while trying to keep 2-3 reps in the tank per set. Perform an additional set after those taken to muscular failure after these in order to drive a bit of intensity and audit your performance."
+            ],
+            '5RM': [
+                "Perform 2 sets while trying to keep 2-3 reps in the tank per set. Perform an additional set after those taken to muscular failure after these in order to drive a bit of intensity and audit your performance.",
+                "3 sets to around 1-2 reps in reserve (no failure sets). Drop accessory volume if fatigued.",
+                "Perform a 5+ Rep max. If >10 reps, rest 3-4 mins and add 2.5-5 per extra rep."
+            ]
+        };
+
+        const programs = {
+            '5rm': [
+                { wk: 1, top: 0.63, back: null, note: commonPres['5RM'][0], backNote: null },
+                { wk: 2, top: 0.66, back: null, note: commonPres['5RM'][0], backNote: null },
+                { wk: 3, top: 0.69, back: null, note: commonPres['5RM'][0], backNote: null },
+                { wk: 4, top: 0.72, back: null, note: commonPres['5RM'][0], backNote: null },
+                { wk: 5, top: 0.75, back: null, note: commonPres['5RM'][1], backNote: null },
+                { wk: 6, top: 0.78, back: null, note: commonPres['5RM'][1], backNote: null },
+                { wk: 7, top: 0.81, back: null, note: commonPres['5RM'][1], backNote: null },
+                { wk: 8, top: 0.85, back: null, note: commonPres['5RM'][2], backNote: null },
+                { wk: 9, top: 0.90, back: null, note: commonPres['5RM'][2], backNote: null },
+                { wk: 10, top: 1.00, back: null, note: commonPres['5RM'][2], backNote: null }
+            ],
+            '1rm': [
+                { wk: 1, top: 0.63, back: null, note: commonPres['1RM'][0], backNote: null },
+                { wk: 2, top: 0.67, back: null, note: commonPres['1RM'][0], backNote: null },
+                { wk: 3, top: 0.71, back: null, note: commonPres['1RM'][0], backNote: null },
+                { wk: 4, top: 0.75, back: null, note: commonPres['1RM'][0], backNote: null },
+                { wk: 5, top: 0.83, back: 0.73, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
+                { wk: 6, top: 0.86, back: 0.76, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
+                { wk: 7, top: 0.89, back: 0.79, note: commonPres['1RM'][1], backNote: commonPres['1RM'][3] },
+                { wk: 8, top: 0.93, back: 0.82, note: 'Single', backNote: commonPres['1RM'][3] },
+                { wk: 9, top: 0.95, back: 0.85, note: 'Single', backNote: commonPres['1RM'][3] },
+                { wk: 10, top: 1.00, back: 0.85, note: 'Single', backNote: "2 sets rep to 0 RIR" }
+            ]
+        };
+
+        function switchTab(mode) {
+            currentMode = mode;
+            document.getElementById('tab-5rm').className = mode === '5rm' ? "px-8 py-2.5 rounded-xl font-bold transition-all tab-active" : "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive";
+            document.getElementById('tab-1rm').className = mode === '1rm' ? "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-active" : "px-8 py-2.5 rounded-xl font-bold transition-all ml-2 tab-inactive";
+            render();
+        }
+
+        function render() {
+            const rm = parseFloat(oneRMInput.value) || 0;
+            const inc = parseFloat(incrementInput.value) || 0.5;
+            const data = programs[currentMode];
+
+            programBody.innerHTML = data.map(row => {
+                const mainWeight = mround(rm * row.top, inc);
+                const backWeight = row.back ? mround(rm * row.back, inc) : null;
+                const isMaxWeek = row.wk === 10;
+
+                return `
+                <tr class="${isMaxWeek ? 'bg-indigo-50/50' : 'hover:bg-slate-50 transition-colors'}">
+                    <td class="px-6 py-6 font-bold text-slate-400">W${row.wk}</td>
+                    <td class="px-6 py-6 text-center">
+                        <div class="weight-badge-top">${mainWeight}</div>
+                    </td>
+                    <td class="px-6 py-6 text-center">
+                        ${backWeight ? `<div class="weight-badge-back">${backWeight}</div>` : '<span class="text-slate-300">—</span>'}
+                    </td>
+                    <td class="px-6 py-6 text-sm">
+                        <div class="max-w-md">
+                            <div class="font-semibold text-slate-800">${row.note}</div>
+                            ${row.backNote ? `
+                                <div class="mt-2 flex items-start gap-2 bg-white/50 border border-slate-100 p-2 rounded-lg">
+                                    <span class="text-[10px] font-black text-indigo-500 uppercase mt-0.5 tracking-tighter">Backdown</span>
+                                    <span class="text-slate-600 text-xs">${row.backNote}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        [oneRMInput, incrementInput].forEach(el => el.addEventListener('input', render));
+        render();
+    </script>
+</body>
+
+</html>
