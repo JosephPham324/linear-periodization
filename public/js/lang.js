@@ -1,0 +1,183 @@
+const TRANSLATIONS = {
+  en: {
+    // Nav
+    nav_program: "Periodization Program",
+    nav_calc: "1RM Calc & Reps",
+    nav_tools: "Gym Math Tools",
+    nav_settings: "Settings",
+    status_ready: "Ready to Lift",
+    status_label: "Status",
+
+    // Headers
+    header_program: "Program Generator",
+    desc_program: "Calculate your 10-week linear periodization block.",
+    header_calc: "Max Calculator",
+    desc_calc: "Estimate your 1RM and see rep ranges.",
+    header_tools: "Gym Math Tools",
+    desc_tools: "Utilities for when the brain fog hits.",
+    header_settings: "Configuration",
+    desc_settings: "Customize your language and equipment.",
+
+    // Program
+    label_current_1rm: "Current 1-Rep Max",
+    label_increment: "Smallest Increment",
+    btn_5rm_block: "5RM Block",
+    btn_1rm_block: "1RM Block",
+    phase1_title: "Phase I: Volumetric Base",
+    phase2_title: "Phase II: Intensification & Peak",
+    col_week: "Week",
+    col_load_top: "Load (Top)",
+    col_load_back: "Load (Back)",
+    col_prescription: "Prescription",
+    backdown_label: "Backdown:",
+
+    // Calculator
+    label_weight_lifted: "Weight Lifted",
+    label_reps_performed: "Reps Performed",
+    label_est_1rm: "Estimated 1RM",
+    calc_note: "Based on the Epley Formula:<br>Weight × (1 + Reps/30)",
+    header_chart: "Percentage / Rep Chart",
+    col_pct: "Percentage",
+    col_rep_est: "Rep Estimate",
+    col_load: "Load",
+
+    // Tools
+    label_bar_weight: "Bar Weight",
+    label_plate_unit: "Plate Unit",
+    label_target_load: "Target Load",
+    label_per_side: "Per Side",
+    msg_enter_weight: "Enter weight above...",
+    header_warmup: "Warm-up Sets",
+    col_set: "Set",
+    col_reps: "Reps",
+    col_plate_side: "Plate/Side",
+    msg_enter_target: "Enter Target Load above",
+    warmup_bar: "Bar",
+    warmup_warm: "Warm-up",
+    warmup_pot: "Potentiation",
+    warmup_work: "Working Set",
+
+    // Settings
+    sect_general: "General Settings",
+    lbl_language: "Language",
+    sect_equipment: "Equipment Inventory",
+    lbl_edit_kg: "Edit Metric (KG) Plates",
+    lbl_edit_lb: "Edit Imperial (LB) Plates",
+    lbl_edit_bars: "Edit Bar Weights",
+    btn_save: "Save Configuration",
+    btn_reset: "Reset Defaults",
+    ph_weight: "Weight",
+    ph_color: "Color Class (e.g. plate-red)",
+    ph_label: "Label",
+    alert_saved: "Settings Saved!",
+  },
+  vi: {
+    // Nav
+    nav_program: "Chương Trình Tập",
+    nav_calc: "Tính 1RM & Reps",
+    nav_tools: "Công Cụ Gym",
+    nav_settings: "Cài Đặt",
+    status_ready: "Sẵn Sàng Tập",
+    status_label: "Trạng Thái",
+
+    // Headers
+    header_program: "Tạo Chương Trình",
+    desc_program: "Tính toán chu kỳ tập luyện 10 tuần.",
+    header_calc: "Tính 1RM",
+    desc_calc: "Ước tính 1RM và số reps tương ứng.",
+    header_tools: "Công Cụ Tính Tạ",
+    desc_tools: "Tiện ích hỗ trợ khi não 'đơ' sau tập.",
+    header_settings: "Cấu Hình",
+    desc_settings: "Tùy chỉnh ngôn ngữ và thiết bị.",
+
+    // Program
+    label_current_1rm: "1RM Hiện Tại",
+    label_increment: "Bước Nhảy Tạ",
+    btn_5rm_block: "Block 5RM",
+    btn_1rm_block: "Block 1RM",
+    phase1_title: "Giai Đoạn I: Xây Dựng Thể Lực",
+    phase2_title: "Giai Đoạn II: Cường Độ Cao",
+    col_week: "Tuần",
+    col_load_top: "Tạ (Chính)",
+    col_load_back: "Tạ (Back)",
+    col_prescription: "Chỉ Định",
+    backdown_label: "Backdown:",
+
+    // Calculator
+    label_weight_lifted: "Mức Tạ Đã Nâng",
+    label_reps_performed: "Số Reps",
+    label_est_1rm: "Ước Tính 1RM",
+    calc_note: "Dựa trên công thức Epley:<br>Tạ × (1 + Reps/30)",
+    header_chart: "Bảng Phần Trăm / Rep",
+    col_pct: "Phần Trăm",
+    col_rep_est: "Số Rep",
+    col_load: "Mức Tạ",
+
+    // Tools
+    label_bar_weight: "Trọng Lượng Đòn",
+    label_plate_unit: "Đơn Vị",
+    label_target_load: "Mức Tạ Mục Tiêu",
+    label_per_side: "Mỗi Bên",
+    msg_enter_weight: "Nhập mức tạ ở trên...",
+    header_warmup: "Các set Khởi Động",
+    col_set: "set",
+    col_reps: "Reps",
+    col_plate_side: "Tạ/Bên",
+    msg_enter_target: "Nhập mục tiêu ở trên",
+    warmup_bar: "Đòn Không",
+    warmup_warm: "Khởi Động",
+    warmup_pot: "Kích Hoạt",
+    warmup_work: "set Chính",
+
+    // Settings
+    sect_general: "Cài Đặt Chung",
+    lbl_language: "Ngôn Ngữ",
+    sect_equipment: "Kho Thiết Bị",
+    lbl_edit_kg: "Sửa Đĩa Tạ KG",
+    lbl_edit_lb: "Sửa Đĩa Tạ LB",
+    lbl_edit_bars: "Sửa Trọng Lượng Đòn",
+    btn_save: "Lưu Cấu Hình",
+    btn_reset: "Khôi Phục Gốc",
+    ph_weight: "Nặng",
+    ph_color: "Mã Màu (vd: plate-red)",
+    ph_label: "Nhãn",
+    alert_saved: "Đã Lưu Cài Đặt!",
+  },
+};
+
+const PROGRAM_NOTES = {
+  en: {
+    "1RM": [
+      "3 sets repped to 3 Reps In Reserve",
+      "1 set repped to 1 Rep In Reserve",
+      "2 sets rep to 2 RIR",
+      "2 sets rep to 1 RIR",
+      "Perform 2 sets while trying to keep 2-3 reps in the tank. Additional set taken to failure.",
+      "Heavy Single",
+      "Max Effort Single",
+      "2 sets rep to 0 RIR",
+    ],
+    "5RM": [
+      "2 sets (2-3 RIR) + 1 set to failure to drive intensity & audit performance.",
+      "3 sets (1-2 RIR). No failure sets. Drop accessories if fatigued.",
+      "5+ Rep Max. If >10 reps, rest 3-4m and add 2.5-5 per extra rep above 5.",
+    ],
+  },
+  vi: {
+    "1RM": [
+      "3 set, giữ lại 3 Reps dự trữ (3 RIR)",
+      "1 set, giữ lại 1 Rep dự trữ (1 RIR)",
+      "2 set, giữ lại 2 RIR",
+      "2 set, giữ lại 1 RIR",
+      "Thực hiện 2 set giữ lại 2-3 reps. set phụ tập đến thất bại.",
+      "1 Rep Nặng",
+      "1 Rep Tối Đa (PR)",
+      "2 set tập đến 0 RIR",
+    ],
+    "5RM": [
+      "2 set (2-3 RIR) + 1 set thất bại để tăng cường độ.",
+      "3 set (1-2 RIR). Không tập đến thất bại. Bỏ bài phụ nếu mệt.",
+      "5+ Rep Tối Đa. Nếu >10 reps, nghỉ 3-4p và thêm tạ cho lần sau.",
+    ],
+  },
+};

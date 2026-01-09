@@ -1,7 +1,11 @@
 export default {
-  content: ["./*.html", "./**/*.html", "./**/*.blade.php", "./**/*.js"],
+  content: ["./*.html", "./**/*.html", "./**/*.blade.php"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+    },
   },
   plugins: [],
 };

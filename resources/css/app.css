@@ -1,41 +1,103 @@
-.glass-card {
-  @apply bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden mb-8;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* --- Typography --- */
+body {
+  font-family: "Inter", sans-serif;
+  letter-spacing: -0.01em;
 }
 
-.input-field {
-  @apply block w-full px-4 py-4 rounded-2xl border-slate-200 bg-slate-50 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all border font-bold text-xl;
-}
+@layer components {
+  /* --- Layout Components --- */
+  .glass-card {
+    @apply bg-white rounded-3xl shadow-lg border border-slate-200 overflow-hidden mb-8;
+  }
 
-.tab-active {
-  background: white;
-  color: #0f172a;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-}
+  .input-field {
+    @apply block w-full px-4 py-4 rounded-2xl border-slate-200 bg-slate-50 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 focus:bg-white outline-none transition-all border font-bold text-xl;
+  }
 
-.tab-inactive {
-  background: transparent;
-  color: #475569;
-  opacity: 0.7;
-}
+  .phase-header {
+    @apply px-8 py-4 bg-slate-900 text-white flex justify-between items-center;
+  }
 
-.weight-badge-top {
-  @apply inline-flex flex-col items-center justify-center min-w-[80px] p-2 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 text-white font-bold text-xl shadow-md;
-}
+  /* --- Navigation --- */
+  .nav-item {
+    @apply flex items-center gap-3 p-4 rounded-2xl font-semibold text-slate-500 transition-all cursor-pointer hover:bg-slate-100 hover:text-slate-700;
+  }
 
-.weight-badge-back {
-  @apply inline-flex flex-col items-center justify-center min-w-[70px] p-2 rounded-xl bg-slate-100 text-slate-700 font-bold text-base border border-slate-200;
-}
+  .nav-item.active {
+    @apply bg-indigo-50 text-indigo-700;
+  }
 
-.phase-header {
-  @apply px-8 py-4 bg-slate-900 text-white flex justify-between items-center;
-}
+  /* --- Tabs --- */
+  .tab-active {
+    background: white;
+    color: #0f172a;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  }
 
-/* New Border Styles */
-th,
-td {
-  @apply border border-slate-200;
-}
+  .tab-inactive {
+    background: transparent;
+    color: #475569;
+    opacity: 0.7;
+  }
 
-table {
-  @apply border-collapse border-hidden;
+  /* --- Badges --- */
+  .weight-badge-top {
+    @apply inline-flex flex-col items-center justify-center min-w-[80px] p-2 rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-800 text-white font-bold text-xl shadow-md;
+  }
+
+  .weight-badge-back {
+    @apply inline-flex flex-col items-center justify-center min-w-[70px] p-2 rounded-xl bg-slate-100 text-slate-700 font-bold text-base border border-slate-200;
+  }
+
+  /* --- Tables --- */
+  table {
+    @apply border-collapse border-hidden;
+  }
+
+  th,
+  td {
+    @apply border border-slate-200;
+  }
+
+  /* --- Plate Loader Visuals --- */
+  .bar-container {
+    @apply flex items-center h-[120px] bg-slate-100 rounded-2xl px-8 overflow-x-auto whitespace-nowrap relative shadow-inner;
+  }
+
+  .bar-end {
+    @apply h-5 w-full bg-slate-400 absolute left-0 top-1/2 -translate-y-1/2 z-0 rounded-full;
+  }
+
+  .plate {
+    @apply w-7 rounded mr-1 z-10 flex items-center justify-center text-[10px] font-black text-white/90 border border-black/10 relative shadow-sm;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+
+  /* --- Plate Colors (IPF Standards) --- */
+  .plate-red {
+    @apply bg-red-600 h-[100px];
+  } /* 25kg */
+  .plate-blue {
+    @apply bg-blue-600 h-[100px];
+  } /* 20kg */
+  .plate-yellow {
+    @apply bg-yellow-500 h-[100px];
+  } /* 15kg */
+  .plate-green {
+    @apply bg-green-600 h-[90px];
+  } /* 10kg */
+  .plate-white {
+    @apply bg-slate-100 h-[75px] text-slate-700;
+  } /* 5kg */
+  .plate-black {
+    @apply bg-slate-800 h-[60px];
+  } /* 2.5kg */
+  .plate-chrome {
+    @apply bg-slate-300 h-[50px] text-slate-700;
+  } /* 1.25kg */
 }

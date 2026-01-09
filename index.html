@@ -4,212 +4,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bald Omni-Man's Linear Periodization Calc</title>
+    <title>Bald Omni-Man System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="public/css/app.css">
+    <!-- Inline styles for custom visuals if needed -->
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            letter-spacing: -0.01em;
+        .input-field {
+            @apply w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all;
+        }
+
+        .glass-card {
+            @apply bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-6;
+        }
+
+        .nav-item {
+            @apply flex items-center gap-3 px-4 py-3 text-sm font-bold text-slate-500 rounded-xl cursor-pointer hover:bg-slate-50 transition-all;
+        }
+
+        .nav-item.active {
+            @apply bg-indigo-50 text-indigo-700;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Plate colors */
+        .plate {
+            @apply h-full border-x border-slate-900/10 flex items-center justify-center text-[10px] font-black text-white shadow-lg mx-[1px];
+            min-width: 12px;
+        }
+
+        .plate-red {
+            @apply bg-red-600 w-8;
+        }
+
+        .plate-blue {
+            @apply bg-blue-600 w-8;
+        }
+
+        .plate-yellow {
+            @apply bg-yellow-500 w-6;
+        }
+
+        .plate-green {
+            @apply bg-green-600 w-5;
+        }
+
+        .plate-white {
+            @apply bg-slate-100 border-4 border-slate-800 text-slate-800 w-4;
+        }
+
+        .plate-black {
+            @apply bg-slate-800 w-4;
+        }
+
+        .plate-chrome {
+            @apply bg-slate-300 text-slate-800 w-3;
+        }
+
+        .bar-end {
+            @apply h-4 bg-slate-300 w-full absolute left-0 top-1/2 -translate-y-1/2 z-0 rounded-full;
+        }
+
+        .bar-container {
+            @apply relative h-32 bg-slate-100 rounded-xl flex items-center justify-center overflow-hidden;
         }
     </style>
-    <link rel="stylesheet" href="./public/css/app.css">
 </head>
 
-<body class="bg-[#F8FAFC] text-slate-900 min-h-screen pb-20">
+<body class="bg-[#F8FAFC] text-slate-900 h-screen flex flex-col md:flex-row overflow-hidden">
 
-    <div class="max-w-5xl mx-auto px-4 py-12">
-        <header class="mb-12 text-center">
-            <h1 class="text-5xl font-[900] tracking-tighter text-slate-900 mb-2 italic uppercase">BALD <span
-                    class="text-indigo-600">OMNI-MAN</span></h1>
-            <p class="text-slate-500 text-lg font-medium">Linear Periodization & Peaking System</p>
-        </header>
+    <aside class="bg-white border-r border-slate-200 md:w-72 flex-shrink-0 flex flex-col h-auto md:h-full z-20">
+        <div class="p-8 border-b border-slate-100 bg-slate-50/50">
+            <h1 class="text-3xl font-[900] tracking-tighter text-slate-900 italic uppercase leading-none">
+                BALD <span class="text-indigo-600 block">OMNI-MAN</span>
+            </h1>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Training Systems</p>
+        </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-            <div class="glass-card p-8 mb-0">
-                <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block">Current 1-Rep
-                    Max</label>
-                <div class="relative">
-                    <input type="text" id="oneRM" value="100" step="2.5" class="input-field">
-                    <span
-                        class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 font-black text-xs">KG/LB</span>
+        <nav class="p-6 space-y-2 flex-1 overflow-y-auto">
+            <div onclick="switchView('program')" id="nav-program" class="nav-item active" data-key="nav_program">
+                <!-- Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Periodization Program
+            </div>
+            <div onclick="switchView('calculator')" id="nav-calculator" class="nav-item" data-key="nav_calc">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+                1RM Calc & Reps
+            </div>
+            <div onclick="switchView('tools')" id="nav-tools" class="nav-item" data-key="nav_tools">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+                Gym Math Tools
+            </div>
+            <!-- Settings Nav Item -->
+            <div onclick="switchView('settings')" id="nav-settings" class="nav-item" data-key="nav_settings">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path
+                        d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                    </path>
+                </svg>
+                Settings
+            </div>
+        </nav>
+
+        <div class="p-6 border-t border-slate-100">
+            <div class="bg-slate-900 rounded-2xl p-4 text-white">
+                <p class="text-xs text-slate-400 uppercase font-bold mb-1" data-key="status_label">Status</p>
+                <p class="font-bold" data-key="status_ready">Ready to Lift</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-4 md:p-12 relative scroll-smooth bg-[#F8FAFC]">
+
+        <!-- PROGRAM VIEW -->
+        <div id="view-program" class="max-w-4xl mx-auto animate-fade-in">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_program">Program Generator</h2>
+                <p class="text-slate-500" data-key="desc_program">Calculate your 10-week linear periodization block.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="glass-card p-8 mb-0">
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block"
+                        data-key="label_current_1rm">Current 1-Rep Max</label>
+                    <div class="relative">
+                        <input type="number" id="oneRM" value="100" step="2.5" class="input-field">
+                        <span
+                            class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 font-black text-xs">KG/LB</span>
+                    </div>
+                </div>
+                <div class="glass-card p-8 mb-0">
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block"
+                        data-key="label_increment">Smallest Increment</label>
+                    <input type="number" id="increment" value="2.5" step="0.5" class="input-field">
                 </div>
             </div>
-            <div class="glass-card p-8 mb-0">
-                <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block">Smallest
-                    Increment</label>
-                <input type="text" id="increment" value="2.5" step="0.5" class="input-field">
+
+            <div class="flex p-1.5 bg-slate-200/60 rounded-[2rem] mb-12 w-fit mx-auto md:mx-0 backdrop-blur-sm">
+                <button onclick="switchTab('5rm')" id="tab-5rm"
+                    class="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all duration-300 tab-active"
+                    data-key="btn_5rm_block">5RM Block</button>
+                <button onclick="switchTab('1rm')" id="tab-1rm"
+                    class="px-8 py-3 rounded-[1.5rem] text-sm font-bold transition-all duration-300 ml-2 tab-inactive"
+                    data-key="btn_1rm_block">1RM Block</button>
+            </div>
+
+            <div class="glass-card">
+                <div class="phase-header bg-emerald-700 p-4 text-white rounded-t-xl flex justify-between items-center">
+                    <h2 class="font-black text-sm uppercase tracking-[0.2em]" data-key="phase1_title">Phase I:
+                        Volumetric Base</h2>
+                    <span class="text-[10px] bg-white/20 px-2 py-1 rounded">Weeks 1 - 4</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left table-fixed">
+                        <thead class="bg-slate-800 text-white">
+                            <tr>
+                                <th class="w-[12%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_week">Week</th>
+                                <th class="w-[20%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_load_top">Load (Top)</th>
+                                <th class="w-[20%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_load_back">Load (Back)</th>
+                                <th class="w-[48%] px-4 py-4 text-[10px] font-black uppercase tracking-widest"
+                                    data-key="col_prescription">Prescription</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phase1-body"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="phase-header bg-indigo-700 p-4 text-white rounded-t-xl flex justify-between items-center">
+                    <h2 class="font-black text-sm uppercase tracking-[0.2em]" data-key="phase2_title">Phase II:
+                        Intensification & Peak</h2>
+                    <span class="text-[10px] bg-white/20 px-2 py-1 rounded">Weeks 5 - 10</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left table-fixed">
+                        <thead class="bg-slate-800 text-white">
+                            <tr>
+                                <th class="w-[12%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_week">Week</th>
+                                <th class="w-[20%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_load_top">Load (Top)</th>
+                                <th class="w-[20%] px-4 py-4 text-[10px] font-black uppercase tracking-widest text-center"
+                                    data-key="col_load_back">Load (Back)</th>
+                                <th class="w-[48%] px-4 py-4 text-[10px] font-black uppercase tracking-widest"
+                                    data-key="col_prescription">Prescription</th>
+                            </tr>
+                        </thead>
+                        <tbody id="phase2-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="flex p-2 bg-slate-200/50 rounded-[2rem] mb-12 w-fit mx-auto md:mx-0 border border-white/50">
-            <button onclick="switchTab('5rm')" id="tab-5rm"
-                class="px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 tab-active">5RM Block</button>
-            <button onclick="switchTab('1rm')" id="tab-1rm"
-                class="px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive">1RM
-                Block</button>
+        <!-- CALCULATOR VIEW -->
+        <div id="view-calculator" class="max-w-4xl mx-auto hidden animate-fade-in">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_calc">Max Calculator</h2>
+                <p class="text-slate-500" data-key="desc_calc">Estimate your 1RM and see rep ranges.</p>
+            </header>
+
+            <div class="glass-card p-8 bg-gradient-to-br from-white to-indigo-50/50">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                    <div>
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block"
+                            data-key="label_weight_lifted">Weight Lifted</label>
+                        <input type="number" id="calc-weight" placeholder="e.g. 100" class="input-field">
+                    </div>
+                    <div>
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-4 block"
+                            data-key="label_reps_performed">Reps Performed</label>
+                        <input type="number" id="calc-reps" placeholder="e.g. 5" class="input-field">
+                    </div>
+                </div>
+
+                <div
+                    class="mt-8 pt-8 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="text-center md:text-left">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1"
+                            data-key="label_est_1rm">Estimated 1RM</p>
+                        <div id="result-1rm" class="text-5xl font-black text-indigo-600 tracking-tighter">-</div>
+                    </div>
+                    <div class="text-xs text-slate-400 font-medium max-w-xs text-center md:text-right"
+                        data-key="calc_note">
+                        Based on the Epley Formula: <br>Weight × (1 + Reps/30)
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="phase-header bg-slate-800 p-4 text-white rounded-t-xl">
+                    <h2 class="font-black text-sm uppercase tracking-[0.2em]" data-key="header_chart">Percentage / Rep
+                        Chart</h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-100 text-slate-500 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-3 text-xs font-black uppercase tracking-widest w-1/3"
+                                    data-key="col_pct">Percentage</th>
+                                <th class="px-6 py-3 text-xs font-black uppercase tracking-widest w-1/3"
+                                    data-key="col_rep_est">Rep Estimate</th>
+                                <th class="px-6 py-3 text-xs font-black uppercase tracking-widest w-1/3 text-right"
+                                    data-key="col_load">Load</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rep-max-body"></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
-        <div class="glass-card">
-            <div class="phase-header bg-green-700">
-                <h2 class="font-black text-sm uppercase tracking-[0.2em]">Phase I: Volumetric Base</h2>
-                <span class="text-[10px] bg-white/20 px-2 py-1 rounded">Weeks 1 - 4</span>
+        <!-- TOOLS VIEW -->
+        <div id="view-tools" class="max-w-4xl mx-auto hidden animate-fade-in">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_tools">Gym Math Tools</h2>
+                <p class="text-slate-500" data-key="desc_tools">Utilities for when the brain fog hits.</p>
+            </header>
+
+            <div class="glass-card p-6 flex items-center justify-between mb-8 bg-slate-900 text-white">
+                <div>
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest block"
+                        data-key="label_bar_weight">Bar Weight</label>
+                    <select id="bar-weight"
+                        class="bg-slate-800 text-white font-bold p-2 rounded mt-1 border border-slate-700">
+                        <option value="20">20 kg</option>
+                        <option value="25">25 kg (Squat Bar)</option>
+                        <option value="45">45 lbs</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs font-black text-slate-400 uppercase tracking-widest block text-right"
+                        data-key="label_plate_unit">Plate Unit</label>
+                    <div class="flex gap-2 mt-1">
+                        <button onclick="setPlateSystem('kg')" id="btn-kg"
+                            class="px-3 py-1 bg-indigo-500 rounded text-xs font-bold">KG</button>
+                        <button onclick="setPlateSystem('lb')" id="btn-lb"
+                            class="px-3 py-1 bg-slate-700 rounded text-xs font-bold">LB</button>
+                    </div>
+                </div>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left table-fixed">
-                    <thead class="bg-slate-700 text-white">
-                        <tr>
-                            <th class="w-[12%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Week</th>
-                            <th class="w-[20%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Load (Top)</th>
-                            <th class="w-[20%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Load (Back)</th>
-                            <th class="w-[48%] px-6 py-4 text-[10px] font-black uppercase tracking-widest">Prescription
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="phase1-body"></tbody>
-                </table>
+
+            <div class="glass-card p-8">
+                <div class="flex justify-between items-end mb-6">
+                    <div>
+                        <label class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 block"
+                            data-key="label_target_load">Target Load</label>
+                        <input type="number" id="plate-target" placeholder="Total Weight" class="input-field w-40">
+                    </div>
+                    <div class="text-right">
+                        <p class="text-xs font-bold text-slate-400 uppercase" data-key="label_per_side">Per Side</p>
+                        <p id="weight-per-side" class="text-2xl font-black text-slate-800">0</p>
+                    </div>
+                </div>
+
+                <div class="bar-container mb-4 shadow-inner" id="plate-visuals">
+                    <div class="bar-end"></div>
+                    <div class="z-10 text-slate-400 text-sm font-bold ml-4" data-key="msg_enter_weight">Enter weight
+                        above...</div>
+                </div>
+
+                <div id="plate-text-list" class="flex flex-wrap gap-2 justify-center text-xs font-bold text-slate-500">
+                </div>
+            </div>
+
+            <div class="glass-card p-8">
+                <h3 class="text-lg font-black text-slate-800 uppercase tracking-tight mb-4 flex items-center gap-2"
+                    data-key="header_warmup">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="text-indigo-500">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    Warm-up Sets
+                </h3>
+                <div class="overflow-hidden rounded-xl border border-slate-200">
+                    <table class="w-full text-left">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4 border-0"
+                                    data-key="col_set">Set</th>
+                                <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4 border-0"
+                                    data-key="col_load">Load</th>
+                                <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4 border-0"
+                                    data-key="col_reps">Reps</th>
+                                <th class="px-4 py-3 text-[10px] font-black uppercase tracking-widest w-1/4 border-0 text-right"
+                                    data-key="col_plate_side">Plate/Side</th>
+                            </tr>
+                        </thead>
+                        <tbody id="warmup-body">
+                            <tr>
+                                <td colspan="4" class="p-4 text-center text-slate-400 text-sm"
+                                    data-key="msg_enter_target">Enter Target Load above</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="glass-card">
-            <div class="phase-header bg-green-700">
-                <h2 class="font-black text-sm uppercase tracking-[0.2em]">Phase II: Intensification & Peak</h2>
-                <span class="text-[10px] bg-white/20 px-2 py-1 rounded">Weeks 5 - 10</span>
+        <!-- SETTINGS VIEW (NEW) -->
+        <div id="view-settings" class="max-w-4xl mx-auto hidden animate-fade-in">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_settings">Configuration</h2>
+                <p class="text-slate-500" data-key="desc_settings">Customize your language and equipment.</p>
+            </header>
+
+            <div class="glass-card p-8">
+                <h3 class="font-bold text-lg mb-4 text-indigo-700" data-key="sect_general">General Settings</h3>
+                <label class="block text-sm font-bold text-slate-700 mb-2" data-key="lbl_language">Language</label>
+                <select id="lang-select" class="input-field">
+                    <option value="en">English</option>
+                    <option value="vi">Tiếng Việt</option>
+                </select>
             </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left table-fixed">
-                    <thead class="bg-slate-700 text-white">
-                        <tr>
-                            <th class="w-[12%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Week</th>
-                            <th class="w-[20%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Load (Top)</th>
-                            <th class="w-[20%] px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">
-                                Load (Back)</th>
-                            <th class="w-[48%] px-6 py-4 text-[10px] font-black uppercase tracking-widest">Prescription
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody id="phase2-body"></tbody>
-                </table>
+
+            <div class="glass-card p-8">
+                <h3 class="font-bold text-lg mb-6 text-indigo-700" data-key="sect_equipment">Equipment Inventory</h3>
+
+                <div class="mb-8">
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-bold text-slate-700" data-key="lbl_edit_kg">Edit Metric (KG)
+                            Plates</label>
+                        <button onclick="addPlate('kg')"
+                            class="text-xs bg-slate-200 px-2 py-1 rounded font-bold hover:bg-slate-300">+</button>
+                    </div>
+                    <div id="container-kg" class="space-y-2"></div>
+                </div>
+
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <label class="block text-sm font-bold text-slate-700" data-key="lbl_edit_lb">Edit Imperial (LB)
+                            Plates</label>
+                        <button onclick="addPlate('lb')"
+                            class="text-xs bg-slate-200 px-2 py-1 rounded font-bold hover:bg-slate-300">+</button>
+                    </div>
+                    <div id="container-lb" class="space-y-2"></div>
+                </div>
+            </div>
+
+            <div class="flex gap-4">
+                <button onclick="saveSettings()"
+                    class="bg-indigo-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200"
+                    data-key="btn_save">Save Configuration</button>
+                <button onclick="resetSettings()"
+                    class="bg-white text-slate-400 border border-slate-200 px-6 py-3 rounded-xl font-bold hover:text-red-500 hover:border-red-200 transition-all"
+                    data-key="btn_reset">Reset Defaults</button>
             </div>
         </div>
+
+    </main>
+
+    <!-- NOTIFICATION TOAST (NEW) -->
+    <div id="notification-toast"
+        class="fixed bottom-4 right-4 bg-slate-900 text-white px-6 py-4 rounded-xl shadow-2xl transform transition-all duration-300 translate-y-24 opacity-0 flex items-center gap-3 z-50 pointer-events-none">
+        <div id="notification-icon" class="flex-shrink-0">
+            <!-- Icon injected by JS -->
+        </div>
+        <div id="notification-message" class="font-bold text-sm"></div>
     </div>
 
-    <script>
-        const oneRMInput = document.getElementById('oneRM');
-        const incrementInput = document.getElementById('increment');
-        const phase1Body = document.getElementById('phase1-body');
-        const phase2Body = document.getElementById('phase2-body');
-
-        let currentMode = '5rm';
-        const mround = (value, factor) => Math.round(value / factor) * factor;
-
-        let commonPres = {
-            '1RM': [
-                "3 sets repped to 3 Reps In Reserve",
-                "1 set repped to 1 Rep In Reserve",
-                "2 sets rep to 2 RIR",
-                "2 sets rep to 1 RIR",
-                "Perform 2 sets while trying to keep 2-3 reps in the tank. Additional set taken to failure."
-            ],
-            '5RM': [
-                "2 sets (2-3 RIR) + 1 set to failure to drive intensity & audit performance.",
-                "3 sets (1-2 RIR). No failure sets. Drop accessories if fatigued.",
-                "5+ Rep Max. If >10 reps, rest 3-4m and add 2.5-5 per extra rep above 5."
-            ]
-        };
-
-        const programs = {
-            '5rm': [
-                { wk: 1, top: 0.63, back: null, note: commonPres['5RM'][0], backNote: null },
-                { wk: 2, top: 0.66, back: null, note: commonPres['5RM'][0], backNote: null },
-                { wk: 3, top: 0.69, back: null, note: commonPres['5RM'][0], backNote: null },
-                { wk: 4, top: 0.72, back: null, note: commonPres['5RM'][0], backNote: null },
-                { wk: 5, top: 0.75, back: null, note: commonPres['5RM'][1], backNote: null },
-                { wk: 6, top: 0.78, back: null, note: commonPres['5RM'][1], backNote: null },
-                { wk: 7, top: 0.81, back: null, note: commonPres['5RM'][1], backNote: null },
-                { wk: 8, top: 0.85, back: null, note: commonPres['5RM'][2], backNote: null },
-                { wk: 9, top: 0.90, back: null, note: commonPres['5RM'][2], backNote: null },
-                { wk: 10, top: 1.00, back: null, note: commonPres['5RM'][2], backNote: null }
-            ],
-            '1rm': [
-                { wk: 1, top: 0.63, back: null, note: commonPres['1RM'][0], backNote: null },
-                { wk: 2, top: 0.67, back: null, note: commonPres['1RM'][0], backNote: null },
-                { wk: 3, top: 0.71, back: null, note: commonPres['1RM'][0], backNote: null },
-                { wk: 4, top: 0.75, back: null, note: commonPres['1RM'][0], backNote: null },
-                { wk: 5, top: 0.83, back: 0.73, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
-                { wk: 6, top: 0.86, back: 0.76, note: commonPres['1RM'][1], backNote: commonPres['1RM'][2] },
-                { wk: 7, top: 0.89, back: 0.79, note: commonPres['1RM'][1], backNote: commonPres['1RM'][3] },
-                { wk: 8, top: 0.93, back: 0.82, note: 'Heavy Single', backNote: commonPres['1RM'][3] },
-                { wk: 9, top: 0.95, back: 0.85, note: 'Heavy Single', backNote: commonPres['1RM'][3] },
-                { wk: 10, top: 1.00, back: 0.85, note: 'Max Effort Single', backNote: "2 sets rep to 0 RIR" }
-            ]
-        };
-
-        function getIntensityColor(pct) {
-            if (pct < 0.70) return 'bg-emerald-100 text-emerald-700';
-            if (pct < 0.85) return 'bg-amber-100 text-amber-700';
-            return 'bg-rose-100 text-rose-700';
-        }
-
-        function generateRows(rows, rm, inc) {
-            return rows.map(row => {
-                const mainWeight = mround(rm * row.top, inc);
-                const backWeight = row.back ? mround(rm * row.back, inc) : null;
-                const intensityColor = getIntensityColor(row.top);
-
-                return `
-                <tr class="hover:bg-slate-50 transition-all">
-                    <td class="px-6 py-6 font-black text-slate-800 text-xl text-center">W${row.wk}</td>
-                    <td class="px-6 py-6 text-center">
-                        <div class="weight-badge-top">${mainWeight}</div>
-                        <div class="mt-2 text-[10px] font-black uppercase tracking-widest ${intensityColor} rounded px-1 inline-block">
-                            ${Math.round(row.top * 100)}%
-                        </div>
-                    </td>
-                    <td class="px-6 py-6 text-center">
-                        ${backWeight ? `
-                            <div class="weight-badge-back">${backWeight}</div>
-                            <div class="mt-2 text-[10px] font-bold text-slate-400 uppercase tracking-tighter">${Math.round(row.back * 100)}%</div>
-                        ` : '<div class="w-8 h-1 bg-slate-100 mx-auto rounded-full"></div>'}
-                    </td>
-                    <td class="px-6 py-6 text-sm">
-                        <div class="max-w-full">
-                            <p class="text-slate-700 font-semibold leading-relaxed mb-2">${row.note}</p>
-                            ${row.backNote ? `
-                                <div class="bg-indigo-50 border border-indigo-100 p-2 rounded-lg text-[11px] font-medium text-indigo-700">
-                                    <span class="font-black uppercase tracking-tighter mr-1 text-[9px]">Backdown:</span> ${row.backNote}
-                                </div>
-                            ` : ''}
-                        </div>
-                    </td>
-                </tr>`;
-            }).join('');
-        }
-
-        function switchTab(mode) {
-            currentMode = mode;
-            document.getElementById('tab-5rm').className = mode === '5rm' ? "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 tab-active" : "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive";
-            document.getElementById('tab-1rm').className = mode === '1rm' ? "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-active" : "px-10 py-3 rounded-[1.5rem] font-bold transition-all duration-300 ml-2 tab-inactive";
-            render();
-        }
-
-        function render() {
-            const rm = parseFloat(oneRMInput.value) || 0;
-            const inc = parseFloat(incrementInput.value) || 0.5;
-            const data = programs[currentMode];
-
-            phase1Body.innerHTML = generateRows(data.slice(0, 4), rm, inc);
-            phase2Body.innerHTML = generateRows(data.slice(4), rm, inc);
-        }
-
-        [oneRMInput, incrementInput].forEach(el => el.addEventListener('input', render));
-        render();
-    </script>
+    <!-- Load scripts in order -->
+    <script src="public/js/lang.js"></script>
+    <script src="public/js/plate_defaults.js"></script>
+    <script src="public/js/settings.js"></script>
+    <script src="public/js/app.js"></script>
 </body>
 
 </html>

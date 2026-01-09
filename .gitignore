@@ -10,7 +10,7 @@ yarn-error.log*
 # OS junk
 .DS_Store
 Thumbs.db
-
+run
 # Editor
 .vscode/
 .idea/
