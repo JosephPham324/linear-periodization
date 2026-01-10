@@ -3,22 +3,31 @@ const mround = (value, factor) => Math.round(value / factor) * factor;
 
 // --- View Switching ---
 function switchView(viewName) {
-  // Hide all
+  // Hide all view containers
   ["program", "calculator", "tools", "settings"].forEach((v) => {
     document.getElementById(`view-${v}`).classList.add("hidden");
-    const nav = document.getElementById(`nav-${v}`);
-    if (nav) nav.classList.remove("active");
+
+    // Deactivate ALL nav items (both desktop sidebar and mobile bottom nav)
+    document.querySelectorAll(`[data-nav="${v}"]`).forEach((el) => {
+      el.classList.remove("active");
+    });
   });
 
-  // Show selected
+  // Show selected view
   document.getElementById(`view-${viewName}`).classList.remove("hidden");
-  const activeNav = document.getElementById(`nav-${viewName}`);
-  if (activeNav) activeNav.classList.add("active");
 
-  // Render updates
+  // Activate selected nav items (both desktop and mobile)
+  document.querySelectorAll(`[data-nav="${viewName}"]`).forEach((el) => {
+    el.classList.add("active");
+  });
+
+  // Render updates based on view
   if (viewName === "program") renderProgram();
   if (viewName === "calculator") calculate1RM();
   if (viewName === "tools") updatePlateLoader();
+
+  // Scroll to top for better mobile UX
+  window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 // --- Data Refresh from Settings ---

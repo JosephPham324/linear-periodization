@@ -8,6 +8,15 @@ body {
   letter-spacing: -0.01em;
 }
 
+/* --- Utilities --- */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
 @layer components {
   /* --- Layout Components --- */
   .glass-card {
@@ -22,13 +31,22 @@ body {
     @apply px-8 py-4 bg-slate-900 text-white flex justify-between items-center;
   }
 
-  /* --- Navigation --- */
+  /* --- Navigation (Desktop) --- */
   .nav-item {
     @apply flex items-center gap-3 p-4 rounded-2xl font-semibold text-slate-500 transition-all cursor-pointer hover:bg-slate-100 hover:text-slate-700;
   }
 
   .nav-item.active {
     @apply bg-indigo-50 text-indigo-700;
+  }
+
+  /* --- Navigation (Mobile) --- */
+  .mobile-nav-item {
+    @apply flex flex-col items-center justify-center p-2 flex-1 text-slate-400 transition-colors cursor-pointer;
+  }
+
+  .mobile-nav-item.active {
+    @apply text-indigo-600;
   }
 
   /* --- Tabs --- */
@@ -77,27 +95,4 @@ body {
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
-
-  /* --- Plate Colors (IPF Standards) --- */
-  .plate-red {
-    @apply bg-red-600 h-[100px];
-  } /* 25kg */
-  .plate-blue {
-    @apply bg-blue-600 h-[100px];
-  } /* 20kg */
-  .plate-yellow {
-    @apply bg-yellow-500 h-[100px];
-  } /* 15kg */
-  .plate-green {
-    @apply bg-green-600 h-[90px];
-  } /* 10kg */
-  .plate-white {
-    @apply bg-slate-100 h-[75px] text-slate-700;
-  } /* 5kg */
-  .plate-black {
-    @apply bg-slate-800 h-[60px];
-  } /* 2.5kg */
-  .plate-chrome {
-    @apply bg-slate-300 h-[50px] text-slate-700;
-  } /* 1.25kg */
 }
