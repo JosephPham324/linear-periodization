@@ -1,5 +1,5 @@
 export default {
-  content: ["./*.html", "./**/*.html", "./**/*.blade.php"],
+  content: ["./*.html", "./**/*.html", "./**/*.blade.php", "./**/*.js"],
   theme: {
     extend: {
       fontFamily: {

@@ -3,18 +3,20 @@ const mround = (value, factor) => Math.round(value / factor) * factor;
 
 // --- View Switching ---
 function switchView(viewName) {
-  // Hide all view containers (Added "about")
+  // Hide all view containers
   ["program", "calculator", "tools", "settings", "about"].forEach((v) => {
-    document.getElementById(`view-${v}`).classList.add("hidden");
+    const el = document.getElementById(`view-${v}`);
+    if (el) el.classList.add("hidden");
 
     // Deactivate ALL nav items (both desktop sidebar and mobile bottom nav)
-    document.querySelectorAll(`[data-nav="${v}"]`).forEach((el) => {
-      el.classList.remove("active");
+    document.querySelectorAll(`[data-nav="${v}"]`).forEach((navEl) => {
+      navEl.classList.remove("active");
     });
   });
 
   // Show selected view
-  document.getElementById(`view-${viewName}`).classList.remove("hidden");
+  const viewEl = document.getElementById(`view-${viewName}`);
+  if (viewEl) viewEl.classList.remove("hidden");
 
   // Activate selected nav items (both desktop and mobile)
   document.querySelectorAll(`[data-nav="${viewName}"]`).forEach((el) => {
@@ -25,7 +27,6 @@ function switchView(viewName) {
   if (viewName === "program") renderProgram();
   if (viewName === "calculator") calculate1RM();
   if (viewName === "tools") updatePlateLoader();
-  // settings and about don't need explicit render calls on switch
 
   // Scroll to top for better mobile UX
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -283,6 +284,22 @@ function getPlateHeight(w, unit) {
   return minH + (maxH - minH) * ratio;
 }
 
+// Helper for dynamic plate thickness (width) based on weight/unit
+function getPlateThickness(w, unit) {
+  const inventory = unit === "kg" ? appSettings.platesKG : appSettings.platesLB;
+  const maxW = inventory.length > 0 ? Math.max(...inventory.map((p) => p.w)) : w;
+
+  // Settings for visual scaling
+  const minT = 8; // Min thickness (px)
+  const maxT = 20; // Max thickness (px) - aligned with w-7 class
+
+  if (maxW === 0) return minT;
+
+  // Use the same square root scaling for authentic feel
+  const ratio = Math.sqrt(w / maxW);
+  return minT + (maxT - minT) * ratio;
+}
+
 function updatePlateLoader() {
   const target = parseFloat(plateTarget.value);
   const bar = parseFloat(barWeightSelect.value);
@@ -304,8 +321,10 @@ function updatePlateLoader() {
   let html = '<div class="bar-end"></div>';
   plates.forEach((p) => {
     const height = getPlateHeight(p.w, plateSystem);
-    // Render plate using dynamic color and height
-    html += `<div class="plate" style="background-color: ${p.color}; height: ${height}px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${p.label}</div>`;
+    const width = getPlateThickness(p.w, plateSystem);
+    // Render plate using dynamic color, height AND width
+    // Added width style here
+    html += `<div class="plate" style="background-color: ${p.color}; height: ${height}px; width: ${width}px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${p.label}</div>`;
   });
   if (remainder > 0) {
     html += `<div class="text-xs font-bold text-red-400 ml-2">+${remainder}</div>`;

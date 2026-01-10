@@ -28,7 +28,7 @@ function renderPlateInputs(plates, container) {
   plates.forEach((p, index) => {
     const row = document.createElement("div");
     row.className = "flex gap-2 mb-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-100";
-    // Ensure count exists for backward compatibility
+    // Default to 10 pairs if undefined for legacy data compatibility
     const countVal = p.count !== undefined ? p.count : 10;
 
     row.innerHTML = `
@@ -65,6 +65,7 @@ function updatePlateData(containerId, index, field, value) {
 
 function addPlate(type) {
   const arr = type === "kg" ? appSettings.platesKG : appSettings.platesLB;
+  // Default new plates to 8 pairs
   arr.push({ w: 0, color: "#000000", label: "0", count: 8 });
   renderPlateInputs(type === "kg" ? appSettings.platesKG : appSettings.platesLB, type === "kg" ? containerKG : containerLB);
 }
@@ -94,11 +95,14 @@ function showNotification(msg, type = "success") {
   }
 
   // Show
-  toast.classList.remove("translate-y-24", "opacity-0");
+  toast.classList.remove("translate-y-24", "opacity-0", "translate-y-32"); // Handle both mobile/desktop classes
 
   // Hide after 3s
   setTimeout(() => {
+    // Re-add classes based on screen size (simple approach: just add the hiding classes)
     toast.classList.add("translate-y-24", "opacity-0");
+    // Note: Tailwind md: classes handle the positioning difference,
+    // we just need to ensure the transform moves it off screen.
   }, 3000);
 }
 
