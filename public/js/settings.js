@@ -28,13 +28,24 @@ function renderPlateInputs(plates, container) {
   plates.forEach((p, index) => {
     const row = document.createElement("div");
     row.className = "flex gap-2 mb-2 items-center bg-slate-50 p-2 rounded-lg border border-slate-100";
+    // Ensure count exists for backward compatibility
+    const countVal = p.count !== undefined ? p.count : 10;
+
     row.innerHTML = `
-            <input type="number" class="input-field w-20 py-1 text-sm" value="${p.w}" placeholder="Weight" onchange="updatePlateData('${container.id}', ${index}, 'w', this.value)">
-            <div class="flex flex-col items-center">
-                 <input type="color" class="h-8 w-10 cursor-pointer border-0 p-0 bg-transparent rounded" value="${p.color}" onchange="updatePlateData('${container.id}', ${index}, 'color', this.value)">
+            <input type="number" class="input-field w-20 py-1 text-sm text-center" value="${p.w}" placeholder="Weight" onchange="updatePlateData('${container.id}', ${index}, 'w', this.value)">
+            
+            <div class="flex flex-col items-center mx-1">
+                 <input type="color" class="h-8 w-8 cursor-pointer border-0 p-0 bg-transparent rounded shadow-sm" value="${p.color}" onchange="updatePlateData('${container.id}', ${index}, 'color', this.value)">
             </div>
+            
             <input type="text" class="input-field flex-1 py-1 text-sm" value="${p.label}" placeholder="Label" onchange="updatePlateData('${container.id}', ${index}, 'label', this.value)">
-            <button onclick="removePlate('${container.id}', ${index})" class="text-rose-500 hover:bg-rose-100 p-2 rounded transition-colors">
+            
+            <div class="flex flex-col items-center w-16">
+                <label class="text-[9px] text-slate-400 font-bold uppercase tracking-tighter leading-none mb-1">Pairs</label>
+                <input type="number" class="input-field w-full py-1 text-sm text-center" value="${countVal}" placeholder="#" onchange="updatePlateData('${container.id}', ${index}, 'count', this.value)">
+            </div>
+
+            <button onclick="removePlate('${container.id}', ${index})" class="text-rose-500 hover:bg-rose-100 p-2 rounded transition-colors ml-1">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
             </button>
         `;
@@ -44,12 +55,17 @@ function renderPlateInputs(plates, container) {
 
 function updatePlateData(containerId, index, field, value) {
   const arr = containerId === "container-kg" ? appSettings.platesKG : appSettings.platesLB;
-  arr[index][field] = field === "w" ? parseFloat(value) : value;
+
+  if (field === "w" || field === "count") {
+    arr[index][field] = parseFloat(value);
+  } else {
+    arr[index][field] = value;
+  }
 }
 
 function addPlate(type) {
   const arr = type === "kg" ? appSettings.platesKG : appSettings.platesLB;
-  arr.push({ w: 0, color: "#000000", label: "0" });
+  arr.push({ w: 0, color: "#000000", label: "0", count: 8 });
   renderPlateInputs(type === "kg" ? appSettings.platesKG : appSettings.platesLB, type === "kg" ? containerKG : containerLB);
 }
 

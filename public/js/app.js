@@ -234,14 +234,19 @@ function calculatePlatesNeeded(weight, bar) {
   let remainder = (weight - bar) / 2;
   if (remainder <= 0) return { plates: [], remainder: 0 };
 
-  // Use plates from Settings
-  const inventory = (plateSystem === "kg" ? appSettings.platesKG : appSettings.platesLB).sort((a, b) => b.w - a.w);
+  // Use a copy of the plates array to avoid sorting the actual settings in place repeatedly
+  const inventory = [...(plateSystem === "kg" ? appSettings.platesKG : appSettings.platesLB)].sort((a, b) => b.w - a.w);
+
   let result = [];
 
   inventory.forEach((p) => {
-    while (remainder >= p.w && p.w > 0) {
+    // Check available pairs (default to 999 if undefined for legacy compatibility)
+    let availablePairs = p.count !== undefined ? p.count : 999;
+
+    while (remainder >= p.w && p.w > 0 && availablePairs > 0) {
       result.push(p);
       remainder -= p.w;
+      availablePairs--;
     }
   });
 
@@ -253,37 +258,19 @@ function calculatePlatesNeeded(weight, bar) {
 
 // Helper for dynamic plate height based on weight/unit
 function getPlateHeight(w, unit) {
-  if (unit === "kg") {
-    let settingWeight = appSettings.platesKG;
-    let heightMAx = 100;
-    let heightMin = 20;
-    let curHeight = 100;
+  const inventory = unit === "kg" ? appSettings.platesKG : appSettings.platesLB;
+  // Get max weight to normalize size
+  const maxW = inventory.length > 0 ? Math.max(...inventory.map((p) => p.w)) : w;
 
-    let sortedWeights = settingWeight.map((p) => p.w).sort((a, b) => b - a);
-    for (let i = 0; i < sortedWeights.length; i++) {
-      if (w >= sortedWeights[i]) {
-        return curHeight;
-      } else {
-        curHeight = curHeight <= heightMin ? heightMin : (curHeight -= 7);
-      }
-    }
-  } else {
-    let settingWeight = appSettings.platesLB;
-    let heightMAx = 100;
-    let heightMin = 20;
-    let curHeight = 100;
+  // Settings for visual scaling
+  const minH = 20;
+  const maxH = 100;
 
-    let sortedWeights = settingWeight.map((p) => p.w).sort((a, b) => b - a);
-    for (let i = 0; i < sortedWeights.length; i++) {
-      if (w >= sortedWeights[i]) {
-        //Nếu lớn hơn thì trả về
-        return curHeight;
-      } else {
-        // Nếu nhỏ hơn thì trừ dần
-        curHeight = curHeight <= heightMin ? heightMin : (curHeight -= 7);
-      }
-    }
-  }
+  if (maxW === 0) return minH;
+
+  // Use square root for more realistic scaling (Mass ~ Area ~ Radius^2)
+  const ratio = Math.sqrt(w / maxW);
+  return minH + (maxH - minH) * ratio;
 }
 
 function updatePlateLoader() {
@@ -307,9 +294,7 @@ function updatePlateLoader() {
   let html = '<div class="bar-end"></div>';
   plates.forEach((p) => {
     const height = getPlateHeight(p.w, plateSystem);
-    console.log("Plate", p.w, "has height", height);
     // Render plate using dynamic color and height
-    // Added text-shadow to ensure label is readable on any background color
     html += `<div class="plate" style="background-color: ${p.color}; height: ${height}px; color: white; text-shadow: 0 1px 2px rgba(0,0,0,0.8);">${p.label}</div>`;
   });
   if (remainder > 0) {
