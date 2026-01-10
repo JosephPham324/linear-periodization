@@ -9,7 +9,7 @@ const TRANSLATIONS = {
     status_label: "Status",
 
     // Headers
-    header_program: "Program Generator",
+    header_program: "Bald Omni-man's Linear Periodization",
     desc_program: "Calculate your 10-week linear periodization block.",
     header_calc: "Max Calculator",
     desc_calc: "Estimate your 1RM and see rep ranges.",
@@ -73,7 +73,7 @@ const TRANSLATIONS = {
   },
   vi: {
     // Nav
-    nav_program: "Chương Trình Tập",
+    nav_program: "Linear Periodization",
     nav_calc: "Tính 1RM & Reps",
     nav_tools: "Công Cụ Gym",
     nav_settings: "Cài Đặt",
@@ -81,7 +81,7 @@ const TRANSLATIONS = {
     status_label: "Trạng Thái",
 
     // Headers
-    header_program: "Tạo Chương Trình",
+    header_program: "Bald Omni-man's Linear Periodization",
     desc_program: "Tính toán chu kỳ tập luyện 10 tuần.",
     header_calc: "Tính 1RM",
     desc_calc: "Ước tính 1RM và số reps tương ứng.",
