@@ -5,11 +5,12 @@ const TRANSLATIONS = {
     nav_calc: "1RM Calc & Reps",
     nav_tools: "Gym Math Tools",
     nav_settings: "Settings",
+    nav_about: "About System", // New
     status_ready: "Ready to Lift",
     status_label: "Status",
 
     // Headers
-    header_program: "Bald Omni-man's Linear Periodization",
+    header_program: "Program Generator",
     desc_program: "Calculate your 10-week linear periodization block.",
     header_calc: "Max Calculator",
     desc_calc: "Estimate your 1RM and see rep ranges.",
@@ -17,6 +18,8 @@ const TRANSLATIONS = {
     desc_tools: "Utilities for when the brain fog hits.",
     header_settings: "Configuration",
     desc_settings: "Customize your language and equipment.",
+    header_about: "About the System", // New
+    desc_about: "Philosophy, Methodology & Credits.", // New
 
     // Program
     label_current_1rm: "Current 1-Rep Max",
@@ -70,18 +73,33 @@ const TRANSLATIONS = {
     ph_color: "Color Class (e.g. plate-red)",
     ph_label: "Label",
     alert_saved: "Settings Saved!",
+
+    // About Content (New)
+    about_intro_title: "The Philosophy",
+    about_intro_text:
+      "The Bald Omni-Man System is designed to strip away the noise and focus on what truly drives strength adaptation: <strong>Linear Periodization</strong> combined with <strong>Auto-Regulation</strong>.",
+    about_method_title: "Methodology",
+    about_method_1: "<strong>Volumetric Base:</strong> Building capacity with higher volume and moderate intensity.",
+    about_method_2: "<strong>Intensification:</strong> Gradually reducing volume while increasing load to peak strength.",
+    about_method_3:
+      "<strong>Auto-Regulation:</strong> Using RPE (Rate of Perceived Exertion) and RIR (Reps In Reserve) to adjust daily loads based on recovery.",
+    about_credits_title: "Credits & Disclaimer",
+    about_credits_text:
+      "Inspired by the training principles of Bald Omni-Man and classic powerlifting methodologies. This application is a tool to assist in calculation and planning.",
+    about_disclaimer: "Consult a physician before starting any training program. Lift at your own risk.",
   },
   vi: {
     // Nav
-    nav_program: "Linear Periodization",
+    nav_program: "Chương Trình Tập",
     nav_calc: "Tính 1RM & Reps",
     nav_tools: "Công Cụ Gym",
     nav_settings: "Cài Đặt",
+    nav_about: "Giới Thiệu", // New
     status_ready: "Sẵn Sàng Tập",
     status_label: "Trạng Thái",
 
     // Headers
-    header_program: "Bald Omni-man's Linear Periodization",
+    header_program: "Tạo Chương Trình",
     desc_program: "Tính toán chu kỳ tập luyện 10 tuần.",
     header_calc: "Tính 1RM",
     desc_calc: "Ước tính 1RM và số reps tương ứng.",
@@ -89,6 +107,8 @@ const TRANSLATIONS = {
     desc_tools: "Tiện ích hỗ trợ khi não 'đơ' sau tập.",
     header_settings: "Cấu Hình",
     desc_settings: "Tùy chỉnh ngôn ngữ và thiết bị.",
+    header_about: "Về Hệ Thống", // New
+    desc_about: "Triết lý, Phương pháp & Tín dụng.", // New
 
     // Program
     label_current_1rm: "1RM Hiện Tại",
@@ -119,15 +139,15 @@ const TRANSLATIONS = {
     label_target_load: "Mức Tạ Mục Tiêu",
     label_per_side: "Mỗi Bên",
     msg_enter_weight: "Nhập mức tạ ở trên...",
-    header_warmup: "Các set Khởi Động",
-    col_set: "set",
+    header_warmup: "Các Hiệp Khởi Động",
+    col_set: "Hiệp",
     col_reps: "Reps",
     col_plate_side: "Tạ/Bên",
     msg_enter_target: "Nhập mục tiêu ở trên",
     warmup_bar: "Đòn Không",
     warmup_warm: "Khởi Động",
     warmup_pot: "Kích Hoạt",
-    warmup_work: "set Chính",
+    warmup_work: "Hiệp Chính",
 
     // Settings
     sect_general: "Cài Đặt Chung",
@@ -142,6 +162,20 @@ const TRANSLATIONS = {
     ph_color: "Mã Màu (vd: plate-red)",
     ph_label: "Nhãn",
     alert_saved: "Đã Lưu Cài Đặt!",
+
+    // About Content (New)
+    about_intro_title: "Triết Lý",
+    about_intro_text:
+      "Hệ thống Bald Omni-Man được thiết kế để loại bỏ sự phức tạp không cần thiết, tập trung vào yếu tố cốt lõi của sức mạnh: <strong>Chu Kỳ Hóa Tuyến Tính (Linear Periodization)</strong> kết hợp với <strong>Tự Điều Chỉnh (Auto-Regulation)</strong>.",
+    about_method_title: "Phương Pháp Luận",
+    about_method_1: "<strong>Nền Tảng Thể Tích:</strong> Xây dựng sức chịu đựng với khối lượng bài tập (volume) cao và cường độ vừa phải.",
+    about_method_2: "<strong>Cường Độ Hóa:</strong> Giảm dần volume trong khi tăng mức tạ để đạt đỉnh sức mạnh.",
+    about_method_3:
+      "<strong>Tự Điều Chỉnh:</strong> Sử dụng RPE (Cảm nhận nỗ lực) và RIR (Số rep dự trữ) để điều chỉnh mức tạ hàng ngày dựa trên khả năng phục hồi.",
+    about_credits_title: "Tín Dụng & Khuyến Cáo",
+    about_credits_text:
+      "Lấy cảm hứng từ các nguyên tắc huấn luyện của Bald Omni-Man trong chương trình Beast Slayer. Ứng dụng này là công cụ hỗ trợ tính toán và lập kế hoạch.",
+    about_disclaimer: "Tham khảo ý kiến bác sĩ trước khi bắt đầu bất kỳ chương trình tập luyện nào. Tập luyện an toàn là trên hết.",
   },
 };
 
@@ -165,18 +199,18 @@ const PROGRAM_NOTES = {
   },
   vi: {
     "1RM": [
-      "3 set, giữ lại 3 Reps dự trữ (3 RIR)",
-      "1 set, giữ lại 1 Rep dự trữ (1 RIR)",
-      "2 set, giữ lại 2 RIR",
-      "2 set, giữ lại 1 RIR",
-      "Thực hiện 2 set giữ lại 2-3 reps. set phụ tập đến thất bại.",
+      "3 hiệp, giữ lại 3 Reps dự trữ (3 RIR)",
+      "1 hiệp, giữ lại 1 Rep dự trữ (1 RIR)",
+      "2 hiệp, giữ lại 2 RIR",
+      "2 hiệp, giữ lại 1 RIR",
+      "Thực hiện 2 hiệp giữ lại 2-3 reps. Hiệp phụ tập đến thất bại.",
       "1 Rep Nặng",
       "1 Rep Tối Đa (PR)",
-      "2 set tập đến 0 RIR",
+      "2 hiệp tập đến 0 RIR",
     ],
     "5RM": [
-      "2 set (2-3 RIR) + 1 set thất bại để tăng cường độ.",
-      "3 set (1-2 RIR). Không tập đến thất bại. Bỏ bài phụ nếu mệt.",
+      "2 hiệp (2-3 RIR) + 1 hiệp thất bại để tăng cường độ.",
+      "3 hiệp (1-2 RIR). Không tập đến thất bại. Bỏ bài phụ nếu mệt.",
       "5+ Rep Tối Đa. Nếu >10 reps, nghỉ 3-4p và thêm tạ cho lần sau.",
     ],
   },

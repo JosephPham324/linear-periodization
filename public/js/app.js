@@ -3,8 +3,8 @@ const mround = (value, factor) => Math.round(value / factor) * factor;
 
 // --- View Switching ---
 function switchView(viewName) {
-  // Hide all view containers
-  ["program", "calculator", "tools", "settings"].forEach((v) => {
+  // Hide all view containers (Added "about")
+  ["program", "calculator", "tools", "settings", "about"].forEach((v) => {
     document.getElementById(`view-${v}`).classList.add("hidden");
 
     // Deactivate ALL nav items (both desktop sidebar and mobile bottom nav)
@@ -25,6 +25,7 @@ function switchView(viewName) {
   if (viewName === "program") renderProgram();
   if (viewName === "calculator") calculate1RM();
   if (viewName === "tools") updatePlateLoader();
+  // settings and about don't need explicit render calls on switch
 
   // Scroll to top for better mobile UX
   window.scrollTo({ top: 0, behavior: "smooth" });

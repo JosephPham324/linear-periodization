@@ -17,7 +17,7 @@
     <header
         class="md:hidden fixed top-0 w-full bg-white/95 backdrop-blur-md border-b border-slate-200 z-30 px-6 py-4 flex items-center justify-between pt-safe">
         <h1 class="text-xl font-[900] tracking-tighter text-slate-900 italic uppercase leading-none">
-            BLOAT <span class="text-indigo-600 inline">OMNI-MAN</span>
+            BLOAT <span class="text-indigo-600 block">JUGGERNAUT</span>
         </h1>
         <div class="text-[10px] font-bold bg-indigo-50 text-indigo-700 px-2 py-1 rounded" data-key="status_ready">Ready
         </div>
@@ -29,7 +29,7 @@
             <h1 class="text-3xl font-[900] tracking-tighter text-slate-900 italic uppercase leading-none">
                 BLOAT <span class="text-indigo-600 block">JUGGERNAUT</span>
             </h1>
-            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Training Utilities</p>
+            <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mt-2">Training Systems</p>
         </div>
 
         <nav class="p-6 space-y-2 flex-1 overflow-y-auto">
@@ -71,6 +71,15 @@
                 </svg>
                 <span data-key="nav_settings">Settings</span>
             </div>
+            <div onclick="switchView('about')" data-nav="about" class="nav-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span data-key="nav_about">About</span>
+            </div>
         </nav>
 
         <div class="p-6 border-t border-slate-100">
@@ -88,8 +97,7 @@
         <!-- PROGRAM VIEW -->
         <div id="view-program" class="max-w-4xl mx-auto animate-fade-in">
             <header class="mb-8">
-                <h2 class="text-3xl font-bold text-slate-900" data-key="header_program">Bald Omni-man's Linear
-                    Periodization</h2>
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_program">Program Generator</h2>
                 <p class="text-slate-500" data-key="desc_program">Calculate your 10-week linear periodization block.</p>
             </header>
 
@@ -366,6 +374,42 @@
             </div>
         </div>
 
+        <!-- ABOUT VIEW -->
+        <div id="view-about" class="max-w-4xl mx-auto hidden animate-fade-in">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-900" data-key="header_about">About the System</h2>
+                <p class="text-slate-500" data-key="desc_about">Philosophy, Methodology & Credits.</p>
+            </header>
+
+            <div class="glass-card p-8">
+                <h3 class="font-bold text-lg mb-4 text-indigo-700" data-key="about_intro_title">The Philosophy</h3>
+                <p class="text-slate-700 leading-relaxed mb-6" data-key="about_intro_text">
+                    The Bloat Juggernaut Website is designed to strip away the noise and focus on what truly drives
+                    strength adaptation: Linear Periodization combined with Auto-Regulation.
+                </p>
+
+                <h3 class="font-bold text-lg mb-4 text-indigo-700" data-key="about_method_title">Methodology</h3>
+                <ul class="list-disc list-inside space-y-3 text-slate-700 mb-6">
+                    <li data-key="about_method_1">Volumetric Base: Building capacity with higher volume and moderate
+                        intensity.</li>
+                    <li data-key="about_method_2">Intensification: Gradually reducing volume while increasing load to
+                        peak strength.</li>
+                    <li data-key="about_method_3">Auto-Regulation: Using RPE (Rate of Perceived Exertion) and RIR (Reps
+                        In Reserve) to adjust daily loads based on recovery.</li>
+                </ul>
+
+                <h3 class="font-bold text-lg mb-4 text-indigo-700" data-key="about_credits_title">Credits & Disclaimer
+                </h3>
+                <p class="text-slate-700 leading-relaxed mb-2" data-key="about_credits_text">
+                    Inspired by the training principles of Bald Omni-Man and classic powerlifting methodologies. This
+                    application is a tool to assist in calculation and planning.
+                </p>
+                <p class="text-xs text-slate-400 uppercase font-bold tracking-widest mt-6" data-key="about_disclaimer">
+                    Consult a physician before starting any training program. Lift at your own risk.
+                </p>
+            </div>
+        </div>
+
     </main>
 
     <!-- MOBILE BOTTOM NAV -->
@@ -378,7 +422,7 @@
                 <line x1="8" y1="2" x2="8" y2="6"></line>
                 <line x1="3" y1="10" x2="21" y2="10"></line>
             </svg>
-            <span class="text-[10px] font-bold mt-1">Program</span>
+            <span class="text-[10px] font-bold mt-1" data-key="nav_program">Program</span>
         </div>
         <div onclick="switchView('calculator')" data-nav="calculator" class="mobile-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -386,7 +430,7 @@
                 <line x1="12" y1="1" x2="12" y2="23"></line>
                 <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
             </svg>
-            <span class="text-[10px] font-bold mt-1">1RM</span>
+            <span class="text-[10px] font-bold mt-1" data-key="nav_calc">1RM</span>
         </div>
         <div onclick="switchView('tools')" data-nav="tools" class="mobile-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -396,7 +440,7 @@
                     d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
                 </path>
             </svg>
-            <span class="text-[10px] font-bold mt-1">Tools</span>
+            <span class="text-[10px] font-bold mt-1" data-key="nav_tools">Tools</span>
         </div>
         <div onclick="switchView('settings')" data-nav="settings" class="mobile-nav-item">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -406,7 +450,16 @@
                     d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
                 </path>
             </svg>
-            <span class="text-[10px] font-bold mt-1">Settings</span>
+            <span class="text-[10px] font-bold mt-1" data-key="nav_settings">Settings</span>
+        </div>
+        <div onclick="switchView('about')" data-nav="about" class="mobile-nav-item">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span class="text-[10px] font-bold mt-1" data-key="nav_about">About</span>
         </div>
     </nav>
 
